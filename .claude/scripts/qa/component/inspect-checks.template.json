@@ -1,0 +1,8 @@
+{
+  "checks": [
+    {"id":"component","subcommand":"box","selector":"REPLACE_COMPONENT_SELECTOR"},
+    {"id":"parent","subcommand":"layout","selector":"REPLACE_PARENT_SELECTOR"},
+    {"id":"element-type","subcommand":"typography","selector":"REPLACE_TEXT_SELECTOR"},
+    {"id":"direct-gap","subcommand":"distance","selector":"REPLACE_FIRST_ELEMENT_SELECTOR","selectorB":"REPLACE_SECOND_ELEMENT_SELECTOR"}
+  ]
+}

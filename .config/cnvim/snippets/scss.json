@@ -1,0 +1,17 @@
+{
+  "@xl": { "prefix": "@xl", "body": ["@include breakpoint(up,xl) {", "\t$0", "}"] },
+  "@lg": { "prefix": "@lg", "body": ["@include breakpoint(up,lg) {", "\t$0", "}"] },
+  "@md": { "prefix": "@md", "body": ["@include breakpoint(up,md) {", "\t$0", "}"] },
+  "@sm": { "prefix": "@sm", "body": ["@include breakpoint(up,sm) {", "\t$0", "}"] },
+  "@inc": { "prefix": "@inc", "body": ["@include breakpoint(${1:pos}, ${2:size}) {", "", "}"] },
+  "xldesktop": { "prefix": "xldesktop", "body": ["@include media('>=xl-desktop') {", "\t$0", "}"] },
+  "lgdesktop": { "prefix": "lgdesktop", "body": ["@include media('>=lg-desktop') {", "\t$0", "}"] },
+  "desktop": { "prefix": "desktop", "body": ["@include media('>=desktop') {", "\t$0", "}"] },
+  "tablet": { "prefix": "tablet", "body": ["@include media('>=tablet') {", "\t$0", "}"] },
+  "mobile": { "prefix": "mobile", "body": ["@include media('>=mobile') {", "\t$0", "}"] },
+  "media": { "prefix": "media", "body": ["@include media('${1:pos}${2:size}') {", "${3:}", "}"] },
+  "@media": { "prefix": "@media", "body": ["@media (min-width: ${1}px) {", "$2", "}"] },
+  "@desktop": { "prefix": "@desktop", "body": ["@media (min-width: 1024px) {", "$1", "}"] },
+  "bg": { "prefix": "bg", "body": ["background-size: cover;", "background-position: center;", "background-repeat: no-repeat;"] },
+  "//": { "prefix": "//", "body": ["/////////////////////////////////////////////////////////////////////////", "//// $1"] }
+}

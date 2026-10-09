@@ -1,0 +1,50 @@
+[user]
+	name = Eric Lam
+
+[core]
+	excludesfile = ~/.gitignore
+	untrackedCache = true
+
+[init]
+	defaultBranch = main
+
+[merge]
+	conflictstyle = zdiff3
+
+[rebase]
+	autosquash = true
+	autostash = true
+
+[commit]
+	verbose = true
+
+[diff]
+	colorMoved = default
+	algorithm = histogram
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
+[branch]
+	sort = -committerdate
+	autoSetupMerge = simple
+
+[push]
+	autoSetupRemote = true
+	default = current
+
+[pull]
+	rebase = true
+
+[grep]
+	patternType = perl
+
+[include]
+	path = ~/.gitconfig-local
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential

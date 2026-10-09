@@ -1,0 +1,80 @@
+# which-key menu for herdr: prefix+space (ctrl+s, then space). One keypress runs an action
+# or opens a group; backspace goes back, esc closes. herdr's own keys: prefix+?.
+#
+# Every table is a key. A table with `group` is a submenu; otherwise it is an action:
+#   send = "text"   type text + Enter into the pane the menu was opened over (agent-aware:
+#                   a Claude/Codex pane gets it as a prompt)
+#   run  = "shell"  run in this popup, so interactive tools (lazygit, yazi, fzf) work.
+#                   Add `wait = true` to keep the popup open to read the output.
+# `run` commands see: HK_PANE, HK_WORKSPACE, HK_LABEL, HK_CWD (the pane under the menu),
+# plus HK_TASK (task id, from the workspace's t<id> agent) and HK_DEV_PANE (the
+# pane running the dev server) when the command mentions them.
+# Keys: letters and digits (A-Z is shift).
+
+[a]
+group = "agents"
+  [a.r]
+  label = "Read an agent's output"
+  run = """name=$(herdr agent list | jq -r '.result.agents[] | "\\(.pane_id)\t\\(.agent_status)\t\\(.terminal_title_stripped // .agent)"' | fzf --delimiter=$'\\t' --with-nth=2,3 --prompt 'agent> ' | cut -f1) && [ -n "$name" ] && herdr pane read "$name" --source recent-unwrapped --lines 400 | less -R +G"""
+  [a.b]
+  label = "Jump to an agent waiting on me"
+  run = """ws=$(herdr agent list | jq -r '[.result.agents[] | select(.agent_status == "blocked")][0].workspace_id // empty') && [ -n "$ws" ] && herdr workspace focus "$ws" >/dev/null || { echo "No agent is waiting on you."; sleep 1; }"""
+  [a.d]
+  label = "Jump to an agent that's done"
+  run = """ws=$(herdr agent list | jq -r '[.result.agents[] | select(.agent_status == "done")][0].workspace_id // empty') && [ -n "$ws" ] && herdr workspace focus "$ws" >/dev/null || { echo "No agent has unread finished work."; sleep 1; }"""
+
+[q]
+group = "qa"
+  [q.p]
+  label = "Apple browser preflight"
+  run = "bash ~/.claude/scripts/apple-qa.sh preflight"
+  wait = true
+  [q.s]
+  label = "Technology Preview fixture (MCP)"
+  run = "bash ~/.claude/scripts/apple-qa.sh desktop"
+  wait = true
+  [q.i]
+  label = "Mobile Safari fixture (XCTest)"
+  run = "bash ~/.claude/scripts/apple-qa.sh ios"
+  wait = true
+
+[r]
+group = "review"
+  [r.p]
+  label = "Diff review pane (reviewr)"
+  run = "herdr plugin action invoke toggle --plugin persiyanov.reviewr >/dev/null"
+  [r.c]
+  label = "Code review this branch"
+  send = "Review this branch against its resolved base, including relevant dirty changes. Lead with verified findings and report test gaps. Keep the review read-only."
+[w]
+group = "workspace"
+  [w.p]
+  label = "Projects (workspaces + zoxide)"
+  run = "~/.config/herdr/project-picker.sh"
+  [w.n]
+  label = "Navigator"
+  run = "herdr plugin action invoke open --plugin herdr-navigator >/dev/null"
+  [w.m]
+  label = "OpenRouter comparisons (shared checkout)"
+  run = "~/.config/herdr/openrouter-picker.sh"
+  [w.h]
+  label = "Which model for this task?"
+  run = "less ~/.claude/scripts/MODELS.md"
+
+[g]
+group = "git"
+  [g.g]
+  label = "lazygit"
+  run = "lazygit"
+  [g.y]
+  label = "yazi"
+  run = "yazi"
+
+[e]
+group = "effort"
+  [e.c]
+  label = "Claude effort picker (press s for this session only)"
+  send = "/effort"
+  [e.x]
+  label = "Codex model/effort picker"
+  send = "/model"

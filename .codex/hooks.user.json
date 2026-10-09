@@ -1,0 +1,81 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/workflow-check.py hook --runtime codex",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write|apply_patch|Agent|Task|spawn_agent"
+      },
+      {
+        "hooks": [
+          {
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/guard-push.py",
+            "timeout": 10,
+            "type": "command"
+          },
+          {
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/verify-before-commit.py",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/guard-push.py",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "mcp__github.*__(push_files|create_or_update_file|delete_file)"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/workflow-check.py hook --runtime codex",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/playwright-cleanup.sh",
+            "timeout": 30,
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "bash '/Users/eric/.codex/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/workflow-check.py hook --runtime codex",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  }
+}

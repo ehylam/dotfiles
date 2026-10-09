@@ -1,0 +1,6 @@
+interface:
+  display_name: "Website Diff"
+  short_description: "Compare two websites with pixelmatch evidence"
+  default_prompt: "Use $website-diff to compare a reference website against a target website across mobile, tablet, and desktop viewports."
+policy:
+  allow_implicit_invocation: true

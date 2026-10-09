@@ -1,0 +1,4 @@
+# User-level-only Codex settings.
+# sync-llm prepends this file when generating ~/.codex/config.toml.
+
+notify = ["/Users/eric/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]

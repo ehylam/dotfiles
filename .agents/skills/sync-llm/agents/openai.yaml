@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sync LLM"
+  short_description: "Sync Claude Code and Codex config"
+  default_prompt: "Use $sync-llm to sync Claude Code and Codex configuration, skills, and hooks."

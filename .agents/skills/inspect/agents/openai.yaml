@@ -1,0 +1,6 @@
+interface:
+  display_name: "Inspect"
+  short_description: "Measure rendered pages with inspect.mjs"
+  default_prompt: "Use $inspect to measure a rendered page across viewports."
+policy:
+  allow_implicit_invocation: true

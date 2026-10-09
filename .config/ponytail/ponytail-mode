@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: ponytail-mode [status|on|off|lite|full|ultra]
+
+Sets Ponytail's default mode for new Claude Code and Codex sessions.
+EOF
+}
+
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/ponytail"
+config_file="$config_dir/config.json"
+command="${1:-status}"
+mode=""
+
+case "$command" in
+  status)
+    if [ -f "$config_file" ]; then
+      python3 - "$config_file" <<'PY'
+import json
+import sys
+
+try:
+    with open(sys.argv[1], "r", encoding="utf-8") as handle:
+        config = json.load(handle)
+except Exception:
+    print("unknown")
+    sys.exit(0)
+
+print(config.get("defaultMode", "full"))
+PY
+    else
+      printf 'full\n'
+    fi
+
+    if [ -n "${PONYTAIL_DEFAULT_MODE:-}" ]; then
+      printf 'PONYTAIL_DEFAULT_MODE=%s overrides %s\n' "$PONYTAIL_DEFAULT_MODE" "$config_file" >&2
+    fi
+    exit 0
+    ;;
+  on)
+    mode="${2:-full}"
+    ;;
+  off|lite|full|ultra)
+    mode="$command"
+    ;;
+  -h|--help|help)
+    usage
+    exit 0
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+case "$mode" in
+  off|lite|full|ultra) ;;
+  *)
+    printf 'Invalid Ponytail mode: %s\n' "$mode" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
+mkdir -p "$config_dir"
+tmp="$(mktemp)"
+printf '{\n  "defaultMode": "%s"\n}\n' "$mode" > "$tmp"
+mv "$tmp" "$config_file"
+
+if [ "$mode" = "off" ]; then
+  rm -f "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/.ponytail-active" 2>/dev/null || true
+  if [ -d "${CODEX_HOME:-$HOME/.codex}" ]; then
+    find "${CODEX_HOME:-$HOME/.codex}" -name .ponytail-active -type f -delete 2>/dev/null || true
+  fi
+fi
+
+printf 'Ponytail default mode: %s\n' "$mode"
+printf 'Start a new Claude Code or Codex session for the default to apply.\n'

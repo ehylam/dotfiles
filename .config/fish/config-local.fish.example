@@ -1,0 +1,4 @@
+# Copy to ~/.config/fish-local.fish for machine-local values.
+# Keep this outside the dotfiles tree; it may contain secrets.
+
+# set -gx GITHUB_PAT "paste-token-here"

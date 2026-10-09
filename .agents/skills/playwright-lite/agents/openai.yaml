@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playwright Lite"
+  short_description: "Token-conscious browser QA"
+  default_prompt: "Use $playwright-lite to run token-conscious Playwright QA without weakening Shopify storefront validation."

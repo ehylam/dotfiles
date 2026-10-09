@@ -1,0 +1,120 @@
+onboarding = false
+# herdr keybindings for task workspaces and model-comparison tabs.
+# Everything not listed keeps the herdr default (see `herdr --default-config`).
+
+[terminal]
+# $SHELL is /bin/zsh (login shell unchanged); herdr panes use fish.
+default_shell = "/opt/homebrew/bin/fish"
+
+[keys]
+prefix = "ctrl+s"
+
+reload_config = "prefix+r"
+resize_mode = ""                   # freed for reload_config; resize is alt+hjkl below
+settings = "prefix+shift+s"        # freed for the workspace picker
+workspace_picker = "prefix+s"
+detach = "prefix+d"
+
+split_vertical = "prefix+|"
+split_horizontal = "prefix+_"
+
+# One rule: plain = workspace, shift = tab. Workspaces are the per-task unit you
+# actually scroll through, so they get the unshifted keys. This is the one place
+# plain n/p/1-9 switch tasks; shifted keys switch their tabs.
+switch_workspace = "prefix+1..9"       # prefix+3 -> 3rd workspace
+next_workspace = "prefix+n"
+previous_workspace = "prefix+p"
+new_workspace = "prefix+shift+c"
+
+switch_tab = "prefix+shift+1..9"
+next_tab = "prefix+shift+n"
+previous_tab = "prefix+shift+p"
+
+rename_tab = "prefix+comma"
+close_tab = "prefix+ampersand"
+move_tab_previous = "ctrl+shift+left"
+move_tab_next = "ctrl+shift+right"
+
+# Navigate-mode movement (the overlay, not the prefix bindings above).
+# j/k walk the workspace list instead of the arrow keys. The cost, which herdr
+# reports as "k: kept navigate_workspace_up, disabled navigate_pane_up": pane
+# up/down has no key inside the overlay. h/l and left/right still move panes,
+# and prefix+j / prefix+k still move panes normally outside it.
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+
+resize_pane_left = "prefix+alt+h"
+resize_pane_down = "prefix+alt+j"
+resize_pane_up = "prefix+alt+k"
+resize_pane_right = "prefix+alt+l"
+
+copy_mode = "prefix+["
+edit_scrollback = "prefix+e"       # opens the pane's scrollback in $EDITOR (nvim)
+
+[ui]
+# Show the active task in the terminal title.
+window_title = "{hostname}: {workspace}"
+# Attention queue: agents waiting on you float to the top. This is what
+# Native state replaces external shell status hooks.
+agent_panel_sort = "priority"
+status_indicators = "symbols"
+
+[ui.sidebar.spaces]
+# Native branch and git status per workspace. $num is the prefix+1..9 position,
+# kept current by plugins/workspace-numbers.
+rows = [[{ token = "$num", dim = true }, "state_icon", "workspace"], ["branch", "git_status"]]
+
+[ui.sidebar.agents.rows_by_agent]
+# Claude sets its terminal title to the task it is on ("Review task
+# 19450042"), so a fan-out sidebar reads as a live task board.
+claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"], ["agent"]]
+
+[ui.toast]
+# System notifications for agent state.
+delivery = "system"
+
+[session]
+# Restore agents into their native conversations.
+resume_agents_on_restore = true
+
+[experimental]
+# Pane screen history across full server restarts. Closest thing to history-limit 50000.
+pane_history = true
+
+[theme]
+name = "kanagawa"
+auto_switch = false
+
+[theme.custom]
+# teal only colours the "done" ✓ (herdr 0.9.3). Bright green so finished work stands
+# out from kanagawa's muted idle green.
+teal = "#4ade80"
+
+[ui.sound]
+enabled = false
+
+# Project navigator: live workspaces and project directories.
+[[keys.command]]
+key = "prefix+ctrl+j"
+type = "popup"
+command = "sh -c 'exec \"$HOME/.config/herdr/project-picker.sh\"'"
+width = "85%"
+height = "70%"
+
+# OpenRouter model picker: multi-select models, one tab per model in the focused
+# workspace, each running opencode on that model and labelled with its name.
+[[keys.command]]
+key = "prefix+m"
+type = "popup"
+command = "sh -c 'exec \"$HOME/.config/herdr/openrouter-picker.sh\"'"
+width = "85%"
+height = "70%"
+
+# which-key: one keypress per step through your own commands (agents, tabs, review,
+# workspace, git), like nvim's which-key. Menu: whichkey.toml. herdr's own keys: prefix+?.
+[[keys.command]]
+key = "prefix+space"
+type = "popup"
+command = "sh -c 'exec \"$HOME/.config/herdr/whichkey.py\"'"
+width = "60%"
+height = "60%"

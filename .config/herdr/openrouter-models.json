@@ -1,0 +1,9 @@
+{
+  "allowlist": [
+    "anthropic/claude-sonnet-5.5",
+    "google/gemini-3.8-flash",
+    "z-ai/glm-5.3",
+    "stepfun/step-3.7-flash",
+    "openrouter/free"
+  ]
+}

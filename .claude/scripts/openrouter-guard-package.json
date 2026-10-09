@@ -1,0 +1,11 @@
+{
+  "name": "dc-openrouter-stream-guard",
+  "private": true,
+  "type": "module",
+  "main": "./openrouter-guard-provider.mjs",
+  "dependencies": {
+    "@openrouter/ai-sdk-provider": "2.9.0",
+    "ai": "6.0.168",
+    "zod": "4.6.5"
+  }
+}

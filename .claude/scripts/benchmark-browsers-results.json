@@ -1,0 +1,361 @@
+{
+  "versions": {
+    "agentBrowser": "0.38.1",
+    "playwrightMcp": "0.0.76",
+    "node": "v24.9.0"
+  },
+  "chrome": "Google Chrome 154.0.8037.58",
+  "fixture": "isolated localhost product/cart, 24 recommendation cards, AU/NZ pricing, asynchronous cart POST, intentional console error and HTTP 503",
+  "samples": [
+    {
+      "kind": "playwright-mcp-default",
+      "width": 375,
+      "iteration": "cold",
+      "elapsedMs": 4011,
+      "setupMs": 244,
+      "calls": 12,
+      "protocolTextBytes": 2533,
+      "fileEvidenceBytes": 19247,
+      "textBytes": 21780,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-default",
+      "width": 375,
+      "iteration": "warm",
+      "elapsedMs": 3232,
+      "setupMs": 0,
+      "calls": 12,
+      "protocolTextBytes": 2501,
+      "fileEvidenceBytes": 19247,
+      "textBytes": 21748,
+      "passed": true
+    },
+    {
+      "kind": "agent-browser",
+      "width": 375,
+      "iteration": "cold",
+      "elapsedMs": 1345,
+      "setupMs": 0,
+      "calls": 17,
+      "protocolTextBytes": 3222,
+      "fileEvidenceBytes": 0,
+      "textBytes": 3222,
+      "passed": true
+    },
+    {
+      "kind": "agent-browser",
+      "width": 375,
+      "iteration": "warm",
+      "elapsedMs": 230,
+      "setupMs": 0,
+      "calls": 17,
+      "protocolTextBytes": 3514,
+      "fileEvidenceBytes": 0,
+      "textBytes": 3514,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-scoped",
+      "width": 375,
+      "iteration": "cold",
+      "elapsedMs": 4163,
+      "setupMs": 206,
+      "calls": 15,
+      "protocolTextBytes": 2987,
+      "fileEvidenceBytes": 0,
+      "textBytes": 2987,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-scoped",
+      "width": 375,
+      "iteration": "warm",
+      "elapsedMs": 3225,
+      "setupMs": 0,
+      "calls": 15,
+      "protocolTextBytes": 2955,
+      "fileEvidenceBytes": 0,
+      "textBytes": 2955,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-default",
+      "width": 768,
+      "iteration": "cold",
+      "elapsedMs": 4231,
+      "setupMs": 252,
+      "calls": 12,
+      "protocolTextBytes": 2533,
+      "fileEvidenceBytes": 19247,
+      "textBytes": 21780,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-default",
+      "width": 768,
+      "iteration": "warm",
+      "elapsedMs": 3244,
+      "setupMs": 0,
+      "calls": 12,
+      "protocolTextBytes": 2501,
+      "fileEvidenceBytes": 19247,
+      "textBytes": 21748,
+      "passed": true
+    },
+    {
+      "kind": "agent-browser",
+      "width": 768,
+      "iteration": "cold",
+      "elapsedMs": 1592,
+      "setupMs": 0,
+      "calls": 17,
+      "protocolTextBytes": 3222,
+      "fileEvidenceBytes": 0,
+      "textBytes": 3222,
+      "passed": true
+    },
+    {
+      "kind": "agent-browser",
+      "width": 768,
+      "iteration": "warm",
+      "elapsedMs": 230,
+      "setupMs": 0,
+      "calls": 17,
+      "protocolTextBytes": 3514,
+      "fileEvidenceBytes": 0,
+      "textBytes": 3514,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-scoped",
+      "width": 768,
+      "iteration": "cold",
+      "elapsedMs": 4418,
+      "setupMs": 236,
+      "calls": 15,
+      "protocolTextBytes": 2987,
+      "fileEvidenceBytes": 0,
+      "textBytes": 2987,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-scoped",
+      "width": 768,
+      "iteration": "warm",
+      "elapsedMs": 3248,
+      "setupMs": 0,
+      "calls": 15,
+      "protocolTextBytes": 2955,
+      "fileEvidenceBytes": 0,
+      "textBytes": 2955,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-default",
+      "width": 1280,
+      "iteration": "cold",
+      "elapsedMs": 3985,
+      "setupMs": 233,
+      "calls": 12,
+      "protocolTextBytes": 2534,
+      "fileEvidenceBytes": 19247,
+      "textBytes": 21781,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-default",
+      "width": 1280,
+      "iteration": "warm",
+      "elapsedMs": 3233,
+      "setupMs": 0,
+      "calls": 12,
+      "protocolTextBytes": 2502,
+      "fileEvidenceBytes": 19247,
+      "textBytes": 21749,
+      "passed": true
+    },
+    {
+      "kind": "agent-browser",
+      "width": 1280,
+      "iteration": "cold",
+      "elapsedMs": 2400,
+      "setupMs": 0,
+      "calls": 17,
+      "protocolTextBytes": 3223,
+      "fileEvidenceBytes": 0,
+      "textBytes": 3223,
+      "passed": true
+    },
+    {
+      "kind": "agent-browser",
+      "width": 1280,
+      "iteration": "warm",
+      "elapsedMs": 249,
+      "setupMs": 0,
+      "calls": 17,
+      "protocolTextBytes": 3515,
+      "fileEvidenceBytes": 0,
+      "textBytes": 3515,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-scoped",
+      "width": 1280,
+      "iteration": "cold",
+      "elapsedMs": 3851,
+      "setupMs": 219,
+      "calls": 15,
+      "protocolTextBytes": 2988,
+      "fileEvidenceBytes": 0,
+      "textBytes": 2988,
+      "passed": true
+    },
+    {
+      "kind": "playwright-mcp-scoped",
+      "width": 1280,
+      "iteration": "warm",
+      "elapsedMs": 3231,
+      "setupMs": 0,
+      "calls": 15,
+      "protocolTextBytes": 2956,
+      "fileEvidenceBytes": 0,
+      "textBytes": 2956,
+      "passed": true
+    }
+  ],
+  "observations": [
+    {
+      "kind": "agent-browser",
+      "width": 375,
+      "iteration": "cold",
+      "issue": "Compact accessibility snapshot omitted newly revealed description",
+      "noncompactRecovered": true,
+      "domVerificationRequired": false
+    },
+    {
+      "kind": "agent-browser",
+      "width": 375,
+      "iteration": "warm",
+      "issue": "Compact accessibility snapshot omitted newly revealed description",
+      "noncompactRecovered": true,
+      "domVerificationRequired": false
+    },
+    {
+      "kind": "agent-browser",
+      "width": 768,
+      "iteration": "cold",
+      "issue": "Compact accessibility snapshot omitted newly revealed description",
+      "noncompactRecovered": true,
+      "domVerificationRequired": false
+    },
+    {
+      "kind": "agent-browser",
+      "width": 768,
+      "iteration": "warm",
+      "issue": "Compact accessibility snapshot omitted newly revealed description",
+      "noncompactRecovered": true,
+      "domVerificationRequired": false
+    },
+    {
+      "kind": "agent-browser",
+      "width": 1280,
+      "iteration": "cold",
+      "issue": "Compact accessibility snapshot omitted newly revealed description",
+      "noncompactRecovered": true,
+      "domVerificationRequired": false
+    },
+    {
+      "kind": "agent-browser",
+      "width": 1280,
+      "iteration": "warm",
+      "issue": "Compact accessibility snapshot omitted newly revealed description",
+      "noncompactRecovered": true,
+      "domVerificationRequired": false
+    }
+  ],
+  "medians": {
+    "playwright-mcp-default": {
+      "cold": {
+        "elapsedMs": 4011,
+        "withSetupMs": 4255,
+        "protocolTextBytes": 2533,
+        "fileEvidenceBytes": 19247,
+        "calls": 12,
+        "textBytes": 21780
+      },
+      "warm": {
+        "elapsedMs": 3233,
+        "withSetupMs": 3233,
+        "protocolTextBytes": 2501,
+        "fileEvidenceBytes": 19247,
+        "calls": 12,
+        "textBytes": 21748
+      }
+    },
+    "agent-browser": {
+      "cold": {
+        "elapsedMs": 1592,
+        "withSetupMs": 1592,
+        "protocolTextBytes": 3222,
+        "fileEvidenceBytes": 0,
+        "calls": 17,
+        "textBytes": 3222
+      },
+      "warm": {
+        "elapsedMs": 230,
+        "withSetupMs": 230,
+        "protocolTextBytes": 3514,
+        "fileEvidenceBytes": 0,
+        "calls": 17,
+        "textBytes": 3514
+      }
+    },
+    "playwright-mcp-scoped": {
+      "cold": {
+        "elapsedMs": 4163,
+        "withSetupMs": 4369,
+        "protocolTextBytes": 2987,
+        "fileEvidenceBytes": 0,
+        "calls": 15,
+        "textBytes": 2987
+      },
+      "warm": {
+        "elapsedMs": 3231,
+        "withSetupMs": 3231,
+        "protocolTextBytes": 2955,
+        "fileEvidenceBytes": 0,
+        "calls": 15,
+        "textBytes": 2955
+      }
+    }
+  },
+  "artifacts": "/var/folders/ck/jwm72y597s520wsr5wtlfggw0000gn/T/herdr-browser-benchmark-TSpdDE",
+  "limitations": [
+    "Transport timings, not model deliberation or end-to-end assistant latency.",
+    "Text bytes include returned protocol text plus required snapshot/log file contents actually read, and exclude image bytes and tool schema/prompt token overhead; not measured token consumption.",
+    "Three widths, one cold and warm journey per width; small local sample, filesystem/OS caches remain warm.",
+    "Synthetic storefront only; no Shopify preview auth, market routing, checkout or Figma validation.",
+    "Installed MCP 0.0.76 defaults to file output despite help advertising stdout; file snapshots used for references count as evidence bytes.",
+    "Scoped MCP suppresses automatic snapshots and takes three explicit product snapshots; default MCP emits full page snapshots.",
+    "Agent-browser compact snapshots omitted revealed static description text in all six samples; a counted noncompact scoped fallback recovered it. Do not use interactive-only or compact snapshots to prove content parity."
+  ],
+  "sources": [
+    "https://github.com/vercel-labs/agent-browser",
+    "https://github.com/microsoft/playwright-mcp"
+  ],
+  "date": "2026-10-01",
+  "correctness": {
+    "functionalJourneysPassed": 18,
+    "functionalJourneysTotal": 18,
+    "screenshots": 18,
+    "agentCompactSnapshotOmissions": 6,
+    "agentNoncompactSnapshotRecoveries": 6,
+    "serversAndBrowsersClosed": true
+  },
+  "recommendation": "Keep Playwright for acceptance QA; trial agent-browser for fast isolated exploration. Noncompact snapshots recovered text omitted by compact snapshots, and counting that fallback made agent-browser output larger than scoped Playwright on this fixture.",
+  "reproduction": {
+    "setup": "npm install --prefix /tmp/herdr-browser-benchmark-deps --no-audit --no-fund --package-lock=false agent-browser@0.38.1 @playwright/mcp@0.0.76 @modelcontextprotocol/sdk@1.25.2 node@24.9.0",
+    "run": "/tmp/herdr-browser-benchmark-deps/node_modules/node/bin/node .claude/scripts/benchmark-browsers.mjs"
+  }
+}

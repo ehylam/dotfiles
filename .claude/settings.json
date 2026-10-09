@@ -1,0 +1,249 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "mcp__pencil"
+    ],
+    "deny": [
+      "Bash(npm run deploy*)",
+      "Bash(shopify theme push*)",
+      "Bash(shopify deploy*)",
+      "Bash(shopify app deploy*)",
+      "Bash(git push* main*)",
+      "Bash(git push* master*)",
+      "Bash(git push* HEAD:main*)",
+      "Bash(git push* HEAD:master*)",
+      "Bash(git push* refs/heads/main*)",
+      "Bash(git push* refs/heads/master*)",
+      "Bash(rm -rf *)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -fd*)",
+      "Bash(git push* --force*)",
+      "Bash(git push* --mirror*)",
+      "Bash(gh api*refs/heads/main*)",
+      "Bash(gh api*refs/heads/master*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|apply_patch|Agent|Task|spawn_agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/workflow-check.py hook --runtime claude",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/rtk-hook.py",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/guard-push.py",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/verify-before-commit.py",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__github.*__(push_files|create_or_update_file|delete_file)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/guard-push.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/workflow-check.py hook --runtime claude",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/theme-check-hook.sh stop",
+            "timeout": 90
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/git-handover-check.sh",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/require-visible-output.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/mem-capture.sh tool",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/theme-check-hook.sh",
+            "timeout": 90
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/mem-capture.sh session",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/playwright-cleanup.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME\"/.dotfiles/.claude/scripts/workflow-check.py hook --runtime claude",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/eric/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME\"/.dotfiles/.claude/scripts/mem-capture.sh tool",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "claude-mem@thedotmack": false,
+    "pyright-lsp@claude-plugins-official": true,
+    "mattpocock-skills@claude-plugins-official": true,
+    "shopify-plugin@shopify-ai-toolkit": true
+  },
+  "extraKnownMarketplaces": {
+    "omc": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/Yeachan-Heo/oh-my-claudecode.git"
+      }
+    },
+    "shopify-ai-toolkit": {
+      "source": {
+        "source": "github",
+        "repo": "Shopify/shopify-ai-toolkit"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  },
+  "feedbackDrafts": "off",
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
+  "theme": "auto",
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
+}

@@ -1,0 +1,63 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {deepQueryAll, nativeClickScript, storefrontScript, captureStorefrontDiagnostics, dismissStorefrontOverlay, STOREFRONT_OVERLAYS} from './storefront-overlays.mjs';
+
+const rect={x:20,y:20,left:20,top:20,right:220,bottom:120,width:200,height:100};
+const document={nodeType:9,querySelectorAll:()=>[],elementFromPoint:()=>button};
+const root={nodeType:1,tagName:'DIV',innerText:'Newsletter test@example.com token=secret-value',textContent:'Newsletter hidden-secret script-secret',getAttribute:()=>null,getBoundingClientRect:()=>rect,getRootNode:()=>document,
+  querySelectorAll:selector=>selector==='*'?[button]:[button],offsetParent:null};
+const button={nodeType:1,tagName:'BUTTON',textContent:'Close',parentElement:root,getBoundingClientRect:()=>({...rect,width:20,height:20,right:40,bottom:40}),getRootNode:()=>document,getAttribute:()=>null,contains:()=>false};
+let present=true,hidden=false,duplicate=false;
+document.querySelectorAll=selector=>selector==='*'?[root,button]:present?(duplicate?[root,{...root}]:[root]):[];
+const context={document,innerWidth:375,innerHeight:844,Set,Object,Number,Error,JSON,
+  getComputedStyle:()=>({display:hidden?'none':'block',visibility:'visible',opacity:'1'})};
+const evaluate=source=>vm.runInNewContext(`(function(){${source}})()`,context);
+const probe=action=>evaluate(storefrontScript(action,'klaviyo'));
+assert.equal(probe('point').status,'ready','Fixed modal with null offsetParent is rendered');
+const diagnostic=probe('dialogs');
+assert.equal(diagnostic.dialogs[0].tag,'div');assert.equal(diagnostic.dialogs[0].display,'block');
+assert.match(diagnostic.dialogs[0].text,/redacted email/);assert.doesNotMatch(diagnostic.dialogs[0].text,/secret-value|test@example.com/);
+assert.doesNotMatch(diagnostic.dialogs[0].text,/hidden-secret|script-secret/);
+button.disabled=true;assert.throws(()=>probe('point'),/disabled/);button.disabled=false;
+document.elementFromPoint=()=>root;assert.throws(()=>probe('point'),/covered/);document.elementFromPoint=()=>button;
+const normalQuery=document.querySelectorAll;
+document.querySelectorAll=selector=>selector==='*'?[root,button]:[button];
+assert.equal(evaluate(nativeClickScript('#close')).x,30);
+const normalStyles=context.getComputedStyle;
+context.getComputedStyle=element=>({...normalStyles(),display:element===root?'none':'block'});
+assert.throws(()=>evaluate(nativeClickScript('#close')),/hidden ancestor/);
+context.getComputedStyle=normalStyles;document.querySelectorAll=normalQuery;
+const shadow={host:null,elementFromPoint:()=>button};
+const host={nodeType:1,shadowRoot:shadow,getRootNode:()=>document};shadow.host=host;
+const originalRoot=button.getRootNode;button.getRootNode=()=>shadow;
+document.elementFromPoint=()=>root;
+assert.throws(()=>probe('point'),/covered outside its shadow root/,'An unrelated light-DOM cover must block a shadow dismiss button');
+document.querySelectorAll=selector=>selector==='*'?[root,button]:[button];
+assert.throws(()=>evaluate(nativeClickScript('#close')),/covered outside its shadow root/);
+document.querySelectorAll=normalQuery;
+document.elementFromPoint=()=>host;assert.equal(probe('point').status,'ready');
+button.getRootNode=originalRoot;document.elementFromPoint=()=>button;
+duplicate=true;assert.throws(()=>probe('point'),/Ambiguous/);duplicate=false;
+hidden=true;assert.equal(probe('point').status,'skipped');hidden=false;
+present=false;assert.equal(probe('point').status,'skipped');present=true;
+
+const target={tagName:'BUTTON'},closed={shadowRoot:null};
+const nested={querySelectorAll:selector=>selector==='*'?[]:[target]};
+const openShadow={querySelectorAll:selector=>selector==='*'?[{shadowRoot:nested}]:[]};
+const tree={querySelectorAll:selector=>selector==='*'?[{shadowRoot:openShadow},closed]:[]};
+assert.deepEqual(deepQueryAll('button',tree),[target],'Nested open roots are searched; closed roots are unavailable');
+assert.throws(()=>deepQueryAll('button',{querySelectorAll:selector=>selector==='*'?Array(5001).fill({}):[]}),/5000/);
+
+let inputs=0;
+const script=async source=>evaluate(source);
+const dismissed=await dismissStorefrontOverlay({script,input:async()=>{inputs++;present=false;}},'klaviyo');
+assert.equal(dismissed.status,'dismissed');assert.equal(inputs,1);
+assert.equal((await dismissStorefrontOverlay({script,input:async()=>inputs++},'klaviyo')).status,'skipped');assert.equal(inputs,1);
+present=true;
+await assert.rejects(dismissStorefrontOverlay({script,input:async()=>{}},'klaviyo',{timeoutMs:10}),/timeout|timed out/);
+await assert.rejects(dismissStorefrontOverlay({script:()=>new Promise(()=>{}),input:async()=>{}},'klaviyo',{timeoutMs:10}),/timed out/);
+await assert.rejects(dismissStorefrontOverlay({script,input:async()=>{}},'generic-close'),/Unknown/);
+await assert.rejects(captureStorefrontDiagnostics(()=>new Promise(()=>{}),{timeoutMs:10}),/deadline/);
+const abort=new AbortController();abort.abort();await assert.rejects(dismissStorefrontOverlay({script,input:async()=>inputs++,signal:abort.signal},'klaviyo'));
+assert.deepEqual(Object.keys(STOREFRONT_OVERLAYS),['bounce-exchange','klaviyo','geolocation','shopify-preview-bar']);
+console.log('PASS: scoped dismissal, fixed-dialog visibility, covered/ambiguous rejection, open/closed roots, redacted diagnostics, absent-overlay skip, asserted removal and bounded failure');

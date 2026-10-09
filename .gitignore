@@ -1,0 +1,56 @@
+# Local/machine-specific configs (may contain secrets)
+.config/fish/config-local.fish
+.gitconfig-local
+.claude/settings.local.json
+.codex/context7.env
+.codex/github-mcp.env
+.codex/figma.env
+.codex/*.local.toml
+.codex/*.bak*
+.claude/*.bak*
+__pycache__/
+*.pyc
+
+# Codex runtime state (keep only durable config in dotfiles)
+.codex/.codex-global-state.json
+.codex/.personality_migration
+.codex/.tmp/
+.codex/auth.json
+.codex/cache/
+.codex/history.jsonl
+.codex/installation_id
+.codex/log/
+.codex/logs_*.sqlite*
+.codex/memories/
+.codex/models_cache.json
+.codex/sessions/
+.codex/skills/
+.codex/sqlite/
+.codex/state_*.sqlite*
+.codex/tmp/
+.codex/vendor_imports/
+.codex/version.json
+
+# Logs
+*.log
+.playwright-mcp/
+.local/project-brain/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Fish runtime state
+.config/fish/fish_variables*
+
+# Local agent/editor runtime state
+.omc/
+.serena/
+.config/**/backup/
+.config/**/*.bak
+
+# Neovim
+.config/nvim-lite/plugin/
+.config/**/checkhealth.txt
+
+**/.claude/settings.local.json

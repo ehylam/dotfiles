@@ -1,0 +1,40 @@
+{
+  "site": "Component QA template - incomplete until reference and criteria are resolved",
+  "baseUrl": "",
+  "viewports": ["desktop"],
+  "targets": [
+    {
+      "id": "component",
+      "label": "REPLACE_COMPONENT_NAME",
+      "url": "REPLACE_AFFECTED_ROUTE_AND_PREVIEW_ID",
+      "checks": [
+        {
+          "id": "component-box",
+          "selector": "REPLACE_COMPONENT_SELECTOR",
+          "subcommand": "box",
+          "intent": null
+        },
+        {
+          "id": "parent-layout",
+          "selector": "REPLACE_PARENT_SELECTOR",
+          "subcommand": "layout",
+          "intent": null
+        },
+        {
+          "id": "element-type",
+          "selector": "REPLACE_TEXT_SELECTOR",
+          "subcommand": "typography",
+          "intent": null
+        }
+      ],
+      "visualChecks": [
+        {
+          "id": "component-pixels",
+          "selector": "REPLACE_COMPONENT_SELECTOR",
+          "figmaScreenshot": "reference.png",
+          "viewports": ["desktop"]
+        }
+      ]
+    }
+  ]
+}
